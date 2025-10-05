@@ -28,6 +28,7 @@ public class HadoopApp {
             job.setMapperClass(WordCount.MapperImpl.class);
             job.setOutputKeyClass(WordCount.OUTPUT_KEY_CLASS);
             job.setOutputValueClass(WordCount.OUTPUT_VALUE_CLASS);
+        // Report 1
         } else if ("RequestCountByURL".equalsIgnoreCase(otherArgs[0])) {
             // ----- Job 1: Count requests per URL -----
             job.setMapperClass(RequestCountByURL.Mapper1.class);
@@ -48,6 +49,34 @@ public class HadoopApp {
             job2.setReducerClass(RequestCountByURL.Reducer2.class);
             job2.setOutputKeyClass(RequestCountByURL.OUTPUT_KEY_CLASS_2);
             job2.setOutputValueClass(RequestCountByURL.OUTPUT_VALUE_CLASS_2);
+
+            // Set the input dir and output dir to print report to. Exit out of program after job completion.
+            FileInputFormat.addInputPath(job2, tempOutput);
+            FileOutputFormat.setOutputPath(job2, new Path(otherArgs[2]));
+
+            System.exit(job2.waitForCompletion(true) ? 0 : 1);
+        }
+        // Report 2
+        else if ("RequestCountByHTTPCode".equalsIgnoreCase(otherArgs[0])) {
+            // ----- Job 1: Count requests per URL -----
+            job.setMapperClass(RequestCountByHTTPCode.Mapper1.class);
+            job.setReducerClass(RequestCountByHTTPCode.Reducer1.class);
+            job.setOutputKeyClass(RequestCountByHTTPCode.OUTPUT_KEY_CLASS_1);
+            job.setOutputValueClass(RequestCountByHTTPCode.OUTPUT_VALUE_CLASS_1);
+
+            // Set the input dir and output dir to print report to.
+            FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
+            Path tempOutput = new Path("temp_requestcount_output");
+            FileOutputFormat.setOutputPath(job, tempOutput);
+
+            job.waitForCompletion(true);
+
+            // ----- Job 2: Sort by request count -----
+            Job job2 = new Job(conf, "Sort by Count");
+            job2.setMapperClass(RequestCountByHTTPCode.Mapper2.class);
+            job2.setReducerClass(RequestCountByHTTPCode.Reducer2.class);
+            job2.setOutputKeyClass(RequestCountByHTTPCode.OUTPUT_KEY_CLASS_2);
+            job2.setOutputValueClass(RequestCountByHTTPCode.OUTPUT_VALUE_CLASS_2);
 
             // Set the input dir and output dir to print report to. Exit out of program after job completion.
             FileInputFormat.addInputPath(job2, tempOutput);
