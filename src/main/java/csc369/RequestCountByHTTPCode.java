@@ -21,12 +21,12 @@ public class RequestCountByHTTPCode {
 
         @Override
         protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-            // Using Apache log format: "IP - - [date] \"GET /path HTTP/1.1\" ..."
+            // Using Apache log format: "IP - - [date] \"GET /path HTTP/1.1\" httpRes bytes"
             String line = value.toString();
             String[] parts = line.split(" ");  // convert the line to a string and get different fields from Apache log by space separator
             if (parts.length > 8) {
-                String path = parts[8];  // parts[6] is the HTTP RESPONSE CODE portion
-                HTTPCode.set(path);
+                String httpRes = parts[8];  // parts[6] is the HTTP RESPONSE CODE portion
+                HTTPCode.set(httpRes);
                 context.write(HTTPCode, one);  // set (key, value) pair as (URL, count)
             }
         }

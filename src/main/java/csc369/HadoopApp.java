@@ -28,8 +28,9 @@ public class HadoopApp {
             job.setMapperClass(WordCount.MapperImpl.class);
             job.setOutputKeyClass(WordCount.OUTPUT_KEY_CLASS);
             job.setOutputValueClass(WordCount.OUTPUT_VALUE_CLASS);
+        }
         // Report 1
-        } else if ("RequestCountByURL".equalsIgnoreCase(otherArgs[0])) {
+        else if ("RequestCountByURL".equalsIgnoreCase(otherArgs[0])) {
             // ----- Job 1: Count requests per URL -----
             job.setMapperClass(RequestCountByURL.Mapper1.class);
             job.setReducerClass(RequestCountByURL.Reducer1.class);
@@ -83,6 +84,14 @@ public class HadoopApp {
             FileOutputFormat.setOutputPath(job2, new Path(otherArgs[2]));
 
             System.exit(job2.waitForCompletion(true) ? 0 : 1);
+        }
+        // Report 3
+        else if ("BytesByClient".equalsIgnoreCase(otherArgs[0])) {
+            // ----- Job 1: Count requests per URL -----
+            job.setMapperClass(BytesByClient.Mapper1.class);
+            job.setReducerClass(BytesByClient.Reducer1.class);
+            job.setOutputKeyClass(BytesByClient.OUTPUT_KEY_CLASS);
+            job.setOutputValueClass(BytesByClient.OUTPUT_VALUE_CLASS);
         } else {
             System.out.println("Unrecognized job: " + otherArgs[0]);
             System.exit(-1);
