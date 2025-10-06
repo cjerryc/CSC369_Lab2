@@ -15,7 +15,7 @@
 ./gradlew run --args="RequestCountByMonthYear input_access_log out_test"
 
 (report 6)
-./gradlew run --args="BytesByClient input_access_log out_test"
+./gradlew run --args="BytesByDay input_access_log out_test"
 
 ---------------------------------- Sample Output ----------------------------------
 ** All reports are stored in "out_test/part-r-00000" **
@@ -698,4 +698,12 @@ Apr 2004        1
 Sep 2004        1
 
 (report 6)
-./gradlew run --args="BytesByClient input_access_log out_test"
+6155    Apr 07 2004
+12846   Sep 07 2004
+15618   Feb 07 2004
+287227  Mar 12 2004
+978411  Mar 09 2004
+1265093 Mar 11 2004
+1357604 Mar 10 2004
+2392749 Mar 07 2004
+4617302 Mar 08 2004

@@ -121,13 +121,41 @@ public class HadoopApp {
 
             System.exit(job2.waitForCompletion(true) ? 0 : 1);
         }
-        // report 5 RequestCountByMonthYear
+        // report 5
         else if ("RequestCountByMonthYear".equalsIgnoreCase(otherArgs[0])) {
             // ----- Job 1: Count requests per URL -----
             job.setMapperClass(RequestCountByMonthYear.Mapper1.class);
             job.setReducerClass(RequestCountByMonthYear.Reducer1.class);
             job.setOutputKeyClass(RequestCountByMonthYear.OUTPUT_KEY_CLASS_1);
             job.setOutputValueClass(RequestCountByMonthYear.OUTPUT_VALUE_CLASS_1);
+        }
+        // report 6
+        else if ("BytesByDay".equalsIgnoreCase(otherArgs[0])) {
+            // ----- Job 1: Count requests per URL -----
+            job.setMapperClass(BytesByDay.Mapper1.class);
+            job.setReducerClass(BytesByDay.Reducer1.class);
+            job.setOutputKeyClass(BytesByDay.OUTPUT_KEY_CLASS_1);
+            job.setOutputValueClass(BytesByDay.OUTPUT_VALUE_CLASS_1);
+
+            // Set the input dir and output dir to print report to.
+            FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
+            Path tempOutput = new Path("temp_requestcount_output");
+            FileOutputFormat.setOutputPath(job, tempOutput);
+
+            job.waitForCompletion(true);
+
+            // ----- Job 2: Sort by request count -----
+            Job job2 = new Job(conf, "Sort by Count");
+            job2.setMapperClass(BytesByDay.Mapper2.class);
+            job2.setReducerClass(BytesByDay.Reducer2.class);
+            job2.setOutputKeyClass(BytesByDay.OUTPUT_KEY_CLASS_2);
+            job2.setOutputValueClass(BytesByDay.OUTPUT_VALUE_CLASS_2);
+
+            // Set the input dir and output dir to print report to. Exit out of program after job completion.
+            FileInputFormat.addInputPath(job2, tempOutput);
+            FileOutputFormat.setOutputPath(job2, new Path(otherArgs[2]));
+
+            System.exit(job2.waitForCompletion(true) ? 0 : 1);
         }
         else {
             System.out.println("Unrecognized job: " + otherArgs[0]);
