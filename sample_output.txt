@@ -12,7 +12,7 @@
 ./gradlew run --args="RequestCountByClientAndURL input_access_log out_test
 
 (report 5)
-./gradlew run --args="BytesByClient input_access_log out_test"
+./gradlew run --args="RequestCountByMonthYear input_access_log out_test"
 
 (report 6)
 ./gradlew run --args="BytesByClient input_access_log out_test"
@@ -692,7 +692,10 @@
 5       128.227.88.79
 
 (report 5)
-./gradlew run --args="BytesByClient input_access_log out_test"
+Feb 2004        1
+Mar 2004        1403
+Apr 2004        1
+Sep 2004        1
 
 (report 6)
 ./gradlew run --args="BytesByClient input_access_log out_test"

@@ -121,6 +121,14 @@ public class HadoopApp {
 
             System.exit(job2.waitForCompletion(true) ? 0 : 1);
         }
+        // report 5 RequestCountByMonthYear
+        else if ("RequestCountByMonthYear".equalsIgnoreCase(otherArgs[0])) {
+            // ----- Job 1: Count requests per URL -----
+            job.setMapperClass(RequestCountByMonthYear.Mapper1.class);
+            job.setReducerClass(RequestCountByMonthYear.Reducer1.class);
+            job.setOutputKeyClass(RequestCountByMonthYear.OUTPUT_KEY_CLASS_1);
+            job.setOutputValueClass(RequestCountByMonthYear.OUTPUT_VALUE_CLASS_1);
+        }
         else {
             System.out.println("Unrecognized job: " + otherArgs[0]);
             System.exit(-1);
