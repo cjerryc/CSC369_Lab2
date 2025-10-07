@@ -50,7 +50,7 @@ public class BytesByDay {
                 sum += v.get();
             }
             total.set(sum);
-            context.write(key, total); // output: (10.0.0.153, totalBytes)
+            context.write(key, total); // output: (Date, totalBytes)
         }
     }
 
@@ -75,7 +75,7 @@ public class BytesByDay {
                 String bytesStr = parts[3]; // get bytes
                 int bytes = Integer.parseInt(bytesStr);
                 bytesWritable.set(bytes);
-                context.write(bytesWritable, Date);  // set (key, value) pair as (Day, Bytes)
+                context.write(bytesWritable, Date);  // set (key, value) pair as (Bytes, Day)
             }
         }
     }
@@ -84,7 +84,7 @@ public class BytesByDay {
         @Override
         protected void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             for (Text v : values)
-                context.write(key, v);  // (count, HTTP response code)
+                context.write(key, v);  // (Bytes, Day)
         }
     }
 

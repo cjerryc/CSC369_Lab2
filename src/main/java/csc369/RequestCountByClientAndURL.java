@@ -29,7 +29,7 @@ public class RequestCountByClientAndURL {
                 if (URL.equals("/twiki/bin/view/Main/WebHome")){
                     String ip = parts[0];          // Client Hostname/IPv4 Address
                     Client.set(ip);
-                    context.write(Client, one);  // set (key, value) pair as (URL, count)
+                    context.write(Client, one);  // set (key, value) pair as (Hostname/IPv4 Address, count)
                 }
             }
         }
@@ -65,7 +65,7 @@ public class RequestCountByClientAndURL {
             if (parts.length == 2) {
                 Client.set(parts[0]);
                 count.set(Integer.parseInt(parts[1]));
-                context.write(count, Client);  // set (key, value) pair as (count, HTTP response code)
+                context.write(count, Client);  // set (key, value) pair as (count, Hostname/IPv4 Address)
             }
         }
     }
@@ -74,7 +74,7 @@ public class RequestCountByClientAndURL {
         @Override
         protected void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             for (Text v : values)
-                context.write(key, v);  // (count, HTTP response code)
+                context.write(key, v);  // (count, Hostname/IPv4 Address)
         }
     }
 

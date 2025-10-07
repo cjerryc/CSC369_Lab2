@@ -9,7 +9,7 @@
 ./gradlew run --args="BytesByClient input_access_log out_test"
 
 (report 4)
-./gradlew run --args="RequestCountByClientAndURL input_access_log out_test
+./gradlew run --args="RequestCountByClientAndURL input_access_log out_test"
 
 (report 5)
 ./gradlew run --args="RequestCountByMonthYear input_access_log out_test"
@@ -18,7 +18,8 @@
 ./gradlew run --args="BytesByDay input_access_log out_test"
 
 ---------------------------------- Sample Output ----------------------------------
-** All reports are stored in "out_test/part-r-00000" **
+** All reports are stored in "out_test/part-r-00000" and may be read using: "cat out_test/part-r-00000" after
+ running the above input commands in terminal.**
 
 (report 1)
 1	/twiki/view/Main/WebHome
